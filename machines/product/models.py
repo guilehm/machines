@@ -18,7 +18,7 @@ class Machine(models.Model):
         null=True,
         blank=True,
         related_name='machines',
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
     )
     price = models.DecimalField(
         max_digits=9,
@@ -55,7 +55,7 @@ class Module(models.Model):
         blank=True,
     )
     picture_primary = models.ForeignKey(
-        'product.Picture', null=True, blank=True, on_delete=models.CASCADE
+        'product.Picture', null=True, blank=True, on_delete=models.SET_NULL
     )
 
     date_added = models.DateTimeField(auto_now_add=True)
@@ -90,7 +90,7 @@ class Variation(models.Model):
         'product.Picture',
         null=True,
         blank=True,
-        on_delete=models.CASCADE
+        on_delete=models.SET_NULL
     )
     pictures = models.ManyToManyField(
         'product.Picture',
