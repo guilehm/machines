@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'web/base.html' %}
+{% block content %}
+<h2>Máquinas</h2>
+{% for machine in machines %}
+    <p>
+        <a href="{% url 'web:machine-detail' machine.id %}">{{ machine.code }}</a>
+        {{ machine.name }}
+    </p>
+{% endfor %}
 
-</body>
-</html>
+<h2>Módulos</h2>
+{% for module in modules %}
+    <p>
+        <a href="{% url 'web:module-detail' module.id %}">{{ module.code }}</a>
+        {{ module.name }}
+    </p>
+{% endfor %}
+
+
+{% endblock %}
