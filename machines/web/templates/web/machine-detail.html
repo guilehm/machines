@@ -1,0 +1,28 @@
+{% extends 'web/base.html' %}
+{% block content %}
+    <h1>{{ machine.name }}</h1>
+    <img src="{{ machine.picture_primary.image.url }}" alt="{{ machine.name }}" style="max-height: 200px;">
+
+    <div>
+        <h3>Informações:</h3>
+        <p>Código: {{ machine.code }}</p>
+        <p>Descrição: {{ machine.description }}</p>
+        <p>Preço: {{ machine.price|default:'0' }}</p>
+        <p>Preço Total: {{ machine.total|default:'0' }}</p>
+    </div>
+
+    <div>
+        <h3>Módulos:</h3>
+        {% for variation in machine.variations.all %}
+            <h5><a href="{% url 'web:variation-detail' variation.id %}">{{ variation.name }}</a></h5>
+            <img src="{{ variation.picture.image.url }}" alt="" style="max-height: 50px">
+        {% endfor %}
+    </div>
+
+    <div>
+        <h3>Fotos:</h3>
+        {% for picture in machine.pictures.all %}
+            <img src="{{ picture.image.url }}" alt="{{ picture.title|default:'' }}" style="max-height: 150px;">
+        {% endfor %}
+    </div>
+{% endblock %}

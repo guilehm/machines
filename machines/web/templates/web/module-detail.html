@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>{{ module.name }}</h1>
+<img src="{{ module.picture_primary.image.url }}" alt="{{ module.name }}" style="max-height: 200px;">
+
+<div>
+    <h3>Informações:</h3>
+    <p>Código: {{ module.code }}</p>
+    <p>Descrição: {{ module.description }}</p>
+    <p>Preço: {{ module.price|default:'0'  }}</p>
+    <p>Preço Total: {{ module.total|default:'0'  }}</p>
+</div>
+
+
+<div>
+    <h3>Módulos:</h3>
+    {% for variation in module.variations.all %}
+        <h5><a href="{% url 'web:variation-detail' variation.id %}">{{ variation.name }}</a></h5>
+        <img src="{{ variation.picture.image.url }}" alt="" style="max-height: 50px">
+    {% endfor %}
+</div>
+
+
+</body>
+</html>
