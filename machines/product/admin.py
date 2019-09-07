@@ -58,6 +58,7 @@ class ModuleAdmin(admin.ModelAdmin):
     list_display = ('code', 'name', 'short_description')
     list_filter = ('code', 'name', 'date_changed')
     search_fields = ('code', 'name', 'description')
+    exclude = ('pictures',)
     inlines = (ModulePictureInline,)
     raw_id_fields = ('pictures', 'picture_primary')
 
@@ -74,5 +75,5 @@ class VariationAdmin(admin.ModelAdmin):
 
 @admin.register(Picture)
 class PictureAdmin(admin.ModelAdmin):
-    list_display = ('title', 'image')
+    list_display = ('id', 'title', 'image')
     list_filter = ('date_added',)

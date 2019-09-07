@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'web/base.html' %}
+{% block content %}
 <h1>{{ variation.name }}</h1>
-<img src="{{ variation.picture_primary.image.url }}" alt="{{ variation.name }}" style="max-height: 200px;">
+<img src="{{ variation.picture.image.url }}" alt="{{ variation.name }}" style="max-height: 200px;">
 
 <div>
     <h3>Informações:</h3>
@@ -23,6 +18,4 @@
         <img src="{{ picture.image.url }}" alt="{{ picture.title|default:'' }}" style="max-height: 150px;">
     {% endfor %}
 </div>
-
-</body>
-</html>
+{% endblock %}

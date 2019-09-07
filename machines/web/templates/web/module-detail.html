@@ -13,7 +13,7 @@
 
 
 <div>
-    <h3>Módulos:</h3>
+    <h3>Variações:</h3>
     {% for variation in module.variations.all %}
         <h5><a href="{% url 'web:variation-detail' variation.id %}">{{ variation.name }}</a></h5>
         <img src="{{ variation.picture.image.url }}" alt="" style="max-height: 50px">
