@@ -3,6 +3,18 @@ from django.contrib import admin
 from machines.product.models import Machine, Module, Variation, Picture
 
 
+admin.site.site_header = 'Machines Admin'
+
+
+class MachineVariationInline(admin.StackedInline):
+    model = Machine.variations.through
+    extra = 0
+    exclude = (
+        'description',
+        'pictures',
+    )
+
+
 class MachinePictureInline(admin.StackedInline):
     model = Machine.pictures.through
     extra = 0
@@ -19,26 +31,30 @@ class ModuleVariationsInline(admin.TabularInline):
 
 @admin.register(Machine)
 class MachineAdmin(admin.ModelAdmin):
-    list_display = ('code', 'name', 'on_sale', 'price')
+    list_display = ('code', 'name', 'on_sale', 'price', '_total')
+    readonly_fields = ('_total',)
     list_filter = ('code', 'name', 'on_sale', 'date_changed')
     search_fields = ('code', 'name', 'description')
-    exclude = ('pictures',)
+    exclude = ('pictures', 'variations')
     raw_id_fields = ('picture_primary',)
-    inlines = (MachinePictureInline,)
+    inlines = (
+        MachineVariationInline,
+        MachinePictureInline,
+    )
 
 
 @admin.register(Module)
 class ModuleAdmin(admin.ModelAdmin):
-    list_display = ('code', 'name')
+    list_display = ('code', 'name', 'short_description')
     list_filter = ('code', 'name', 'date_changed')
     search_fields = ('code', 'name', 'description')
-    inlines = (ModuleVariationsInline,)
+    # inlines = (ModuleVariationsInline,)
     raw_id_fields = ('pictures',)
 
 
 @admin.register(Variation)
 class VariationAdmin(admin.ModelAdmin):
-    list_display = ('code', 'name', 'price', 'on_sale', 'stock')
+    list_display = ('code', 'name', 'price', 'on_sale')
     list_filter = ('code', 'name', 'date_changed')
     search_fields = ('code', 'name', 'description')
     raw_id_fields = ('pictures',)
