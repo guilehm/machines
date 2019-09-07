@@ -49,7 +49,7 @@ class ModuleAdmin(admin.ModelAdmin):
     list_filter = ('code', 'name', 'date_changed')
     search_fields = ('code', 'name', 'description')
     # inlines = (ModuleVariationsInline,)
-    raw_id_fields = ('pictures',)
+    raw_id_fields = ('pictures', 'picture_primary')
 
 
 @admin.register(Variation)

@@ -35,11 +35,13 @@ class Machine(models.Model):
 
     @property
     def _total(self):
-        return self.price + self.variations.values(
+        if not self.variations.exists():
+            return self.price or 0
+        return self.price or 0 + (self.variations.values(
             'price'
         ).aggregate(
             total_price=Sum('price')
-        )['total_price']
+        )['total_price'] or 0)
 
 
 class Module(models.Model):
@@ -78,7 +80,12 @@ class Variation(models.Model):
     code = models.CharField(max_length=128, db_index=True)
     name = models.CharField(max_length=1024, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    price = models.DecimalField(max_digits=9, decimal_places=2)
+    price = models.DecimalField(
+        max_digits=9,
+        decimal_places=2,
+        null=True,
+        blank=True,
+    )
     pictures = models.ManyToManyField(
         'product.Picture',
         related_name='variations',
