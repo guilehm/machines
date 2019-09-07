@@ -12,7 +12,7 @@ class Machine(models.Model):
         related_name='machines',
         blank=True,
     )
-    pictures = models.ManyToManyField('product.Picture')
+    pictures = models.ManyToManyField('product.Picture', blank=True)
     picture_primary = models.ForeignKey(
         'product.Picture',
         null=True,
@@ -50,7 +50,6 @@ class Module(models.Model):
     pictures = models.ManyToManyField(
         'product.Picture',
         related_name='modules',
-        null=True,
         blank=True,
     )
     picture_primary = models.ForeignKey(
@@ -83,7 +82,6 @@ class Variation(models.Model):
     pictures = models.ManyToManyField(
         'product.Picture',
         related_name='variations',
-        null=True,
         blank=True,
     )
     on_sale = models.BooleanField(default=True, db_index=True)
