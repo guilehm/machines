@@ -8,6 +8,9 @@ verify_ssl = true
 [packages]
 django = "*"
 pillow = "*"
+psycopg2-binary = "*"
+dj-database-url = "*"
+dj-static = "*"
 
 [requires]
 python_version = "3.7"
