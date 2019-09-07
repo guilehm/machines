@@ -3,6 +3,11 @@ from django.contrib import admin
 from machines.product.models import Machine, Module, Variation, Picture
 
 
+class MachinePictureInline(admin.StackedInline):
+    model = Machine.pictures.through
+    extra = 0
+
+
 class ModuleVariationsInline(admin.TabularInline):
     model = Variation
     extra = 0
@@ -19,6 +24,7 @@ class MachineAdmin(admin.ModelAdmin):
     search_fields = ('code', 'name', 'description')
     exclude = ('pictures',)
     raw_id_fields = ('picture_primary',)
+    inlines = (MachinePictureInline,)
 
 
 @admin.register(Module)

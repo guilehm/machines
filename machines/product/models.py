@@ -72,9 +72,6 @@ class Picture(models.Model):
 
     date_added = models.DateTimeField(auto_now_add=True)
     date_changed = models.DateTimeField(auto_now=True)
-    #
-    # class Meta:
-    #     app_label = 'Picture'
 
     def __str__(self):
         return '#{id}{title}'.format(
