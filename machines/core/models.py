@@ -25,6 +25,7 @@ class Machine:
 
 
 class Module:
+    code = models.CharField(max_length=128, db_index=True)
     name = models.CharField(max_length=128)
     description = models.TextField(null=True, blank=True)
 
