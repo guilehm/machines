@@ -1,11 +1,17 @@
 from django.db import models
+from django.db.models import Sum
 
 
 class Machine(models.Model):
     code = models.CharField(max_length=128, db_index=True)
     name = models.CharField(max_length=128)
     description = models.TextField(null=True, blank=True)
-    on_sale = models.BooleanField(default=False, db_index=True)
+    on_sale = models.BooleanField(default=True, db_index=True)
+    variations = models.ManyToManyField(
+        'product.Variation',
+        related_name='machines',
+        blank=True,
+    )
     pictures = models.ManyToManyField('product.Picture')
     picture_primary = models.ForeignKey(
         'product.Picture',
@@ -27,13 +33,26 @@ class Machine(models.Model):
     def __str__(self):
         return f'({self.code}) {self.name}'
 
+    @property
+    def _total(self):
+        return self.price + self.variations.values(
+            'price'
+        ).aggregate(
+            total_price=Sum('price')
+        )['total_price']
+
 
 class Module(models.Model):
     code = models.CharField(max_length=128, db_index=True)
     name = models.CharField(max_length=128)
     description = models.TextField(null=True, blank=True)
 
-    pictures = models.ManyToManyField('product.Picture', related_name='modules')
+    pictures = models.ManyToManyField(
+        'product.Picture',
+        related_name='modules',
+        null=True,
+        blank=True,
+    )
     picture_primary = models.ForeignKey(
         'product.Picture', null=True, blank=True, on_delete=models.CASCADE
     )
@@ -43,6 +62,12 @@ class Module(models.Model):
 
     def __str__(self):
         return f'{self.name}'
+
+    def short_description(self):
+        return '{}{}'.format(
+            self.description[:50],
+            '' if len(self.description) <= 50 else '...',
+        )
 
 
 class Variation(models.Model):
@@ -55,9 +80,13 @@ class Variation(models.Model):
     name = models.CharField(max_length=1024, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     price = models.DecimalField(max_digits=9, decimal_places=2)
-    pictures = models.ManyToManyField('product.Picture', related_name='variations')
-    stock = models.PositiveIntegerField(default=0, db_index=True)
-    on_sale = models.BooleanField(default=False, db_index=True)
+    pictures = models.ManyToManyField(
+        'product.Picture',
+        related_name='variations',
+        null=True,
+        blank=True,
+    )
+    on_sale = models.BooleanField(default=True, db_index=True)
 
     date_added = models.DateTimeField(auto_now_add=True)
     date_changed = models.DateTimeField(auto_now=True)
