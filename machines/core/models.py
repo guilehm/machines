@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Machine:
+class Machine(models.Model):
     code = models.CharField(max_length=128, db_index=True)
     name = models.CharField(max_length=128)
     description = models.TextField(null=True, blank=True)
@@ -24,7 +24,7 @@ class Machine:
         return f'({self.code}) {self.name}'
 
 
-class Module:
+class Module(models.Model):
     code = models.CharField(max_length=128, db_index=True)
     name = models.CharField(max_length=128)
     description = models.TextField(null=True, blank=True)
@@ -41,7 +41,7 @@ class Module:
         return f'{self.name}'
 
 
-class ModuleVariation:
+class Variation(models.Model):
     module = models.ForeignKey(
         'core.Module',
         related_name='variations',
