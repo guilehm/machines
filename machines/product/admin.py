@@ -31,8 +31,8 @@ class ModuleVariationsInline(admin.TabularInline):
 
 @admin.register(Machine)
 class MachineAdmin(admin.ModelAdmin):
-    list_display = ('code', 'name', 'on_sale', 'price', '_total')
-    readonly_fields = ('_total',)
+    list_display = ('code', 'name', 'on_sale', 'price', 'total')
+    readonly_fields = ('total',)
     list_filter = ('code', 'name', 'on_sale', 'date_changed')
     search_fields = ('code', 'name', 'description')
     exclude = ('pictures', 'variations')
@@ -57,7 +57,7 @@ class VariationAdmin(admin.ModelAdmin):
     list_display = ('code', 'name', 'price', 'on_sale')
     list_filter = ('code', 'name', 'date_changed')
     search_fields = ('code', 'name', 'description')
-    raw_id_fields = ('pictures',)
+    raw_id_fields = ('pictures', 'picture_primary')
 
 
 @admin.register(Picture)

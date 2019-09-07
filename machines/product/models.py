@@ -34,7 +34,7 @@ class Machine(models.Model):
         return f'({self.code}) {self.name}'
 
     @property
-    def _total(self):
+    def total(self):
         if not self.variations.exists():
             return self.price or 0
         return self.price or 0 + (self.variations.values(
@@ -86,6 +86,12 @@ class Variation(models.Model):
         null=True,
         blank=True,
     )
+    picture_primary = models.ForeignKey(
+        'product.Picture',
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE
+    )
     pictures = models.ManyToManyField(
         'product.Picture',
         related_name='variations',
@@ -98,6 +104,11 @@ class Variation(models.Model):
 
     def __str__(self):
         return f'({self.code}) {self.name}'
+
+    def picture(self):
+        if not self.picture_primary:
+            return self.module.picture_primary
+        return self.picture_primary
 
 
 class Picture(models.Model):
