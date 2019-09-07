@@ -1,30 +1,39 @@
 from django.contrib import admin
 
-from machines.core.models import Machine, Module, ModuleVariation, Picture
+from machines.core.models import Machine, Module, Variation, Picture
+
+
+class ModuleVariationsInline(admin.TabularInline):
+    model = Variation
+    extra = 0
+    exclude = (
+        'description',
+        'pictures',
+    )
 
 
 @admin.register(Machine)
-class MachineAdmin:
+class MachineAdmin(admin.ModelAdmin):
     list_display = ('code', 'name', 'on_sale', 'price')
     list_filter = ('code', 'name', 'on_sale', 'date_changed')
     search_fields = ('code', 'name', 'description')
 
 
 @admin.register(Module)
-class ModuleAdmin:
+class ModuleAdmin(admin.ModelAdmin):
     list_display = ('code', 'name')
     list_filter = ('code', 'name', 'date_changed')
     search_fields = ('code', 'name', 'description')
 
 
-@admin.register(ModuleVariation)
-class ModuleVariationAdmin:
+@admin.register(Variation)
+class VariationAdmin(admin.ModelAdmin):
     list_display = ('code', 'name', 'price', 'on_sale', 'stock')
     list_filter = ('code', 'name', 'date_changed')
     search_fields = ('code', 'name', 'description')
 
 
 @admin.register(Picture)
-class PictureAdmin:
+class PictureAdmin(admin.ModelAdmin):
     list_display = ('title', 'image')
     list_filter = ('date_added',)
