@@ -20,6 +20,16 @@ class MachinePictureInline(admin.StackedInline):
     extra = 0
 
 
+class ModulePictureInline(admin.StackedInline):
+    model = Module.pictures.through
+    extra = 0
+
+
+class VariationPictureInline(admin.StackedInline):
+    model = Variation.pictures.through
+    extra = 0
+
+
 class ModuleVariationsInline(admin.TabularInline):
     model = Variation
     extra = 0
@@ -48,7 +58,7 @@ class ModuleAdmin(admin.ModelAdmin):
     list_display = ('code', 'name', 'short_description')
     list_filter = ('code', 'name', 'date_changed')
     search_fields = ('code', 'name', 'description')
-    # inlines = (ModuleVariationsInline,)
+    inlines = (ModulePictureInline,)
     raw_id_fields = ('pictures', 'picture_primary')
 
 
@@ -57,7 +67,9 @@ class VariationAdmin(admin.ModelAdmin):
     list_display = ('code', 'name', 'price', 'on_sale')
     list_filter = ('code', 'name', 'date_changed')
     search_fields = ('code', 'name', 'description')
-    raw_id_fields = ('pictures', 'picture_primary')
+    raw_id_fields = ('picture_primary',)
+    exclude = ('pictures',)
+    inlines = (VariationPictureInline,)
 
 
 @admin.register(Picture)
