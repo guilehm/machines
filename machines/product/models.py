@@ -6,9 +6,9 @@ class Machine(models.Model):
     name = models.CharField(max_length=128)
     description = models.TextField(null=True, blank=True)
     on_sale = models.BooleanField(default=False, db_index=True)
-    pictures = models.ManyToManyField('core.Picture')
+    pictures = models.ManyToManyField('product.Picture')
     picture_primary = models.ForeignKey(
-        'core.Picture',
+        'product.Picture',
         null=True,
         blank=True,
         related_name='machines',
@@ -33,9 +33,9 @@ class Module(models.Model):
     name = models.CharField(max_length=128)
     description = models.TextField(null=True, blank=True)
 
-    pictures = models.ManyToManyField('core.Picture', related_name='modules')
+    pictures = models.ManyToManyField('product.Picture', related_name='modules')
     picture_primary = models.ForeignKey(
-        'core.Picture', null=True, blank=True, on_delete=models.CASCADE
+        'product.Picture', null=True, blank=True, on_delete=models.CASCADE
     )
 
     date_added = models.DateTimeField(auto_now_add=True)
@@ -47,7 +47,7 @@ class Module(models.Model):
 
 class Variation(models.Model):
     module = models.ForeignKey(
-        'core.Module',
+        'product.Module',
         related_name='variations',
         on_delete=models.CASCADE,
     )
@@ -55,7 +55,7 @@ class Variation(models.Model):
     name = models.CharField(max_length=1024, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     price = models.DecimalField(max_digits=9, decimal_places=2)
-    pictures = models.ManyToManyField('core.Picture', related_name='variations')
+    pictures = models.ManyToManyField('product.Picture', related_name='variations')
     stock = models.PositiveIntegerField(default=0, db_index=True)
     on_sale = models.BooleanField(default=False, db_index=True)
 
@@ -72,6 +72,9 @@ class Picture(models.Model):
 
     date_added = models.DateTimeField(auto_now_add=True)
     date_changed = models.DateTimeField(auto_now=True)
+    #
+    # class Meta:
+    #     app_label = 'Picture'
 
     def __str__(self):
         return '#{id}{title}'.format(

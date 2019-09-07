@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from machines.core.models import Machine, Module, Variation, Picture
+from machines.product.models import Machine, Module, Variation, Picture
 
 
 class ModuleVariationsInline(admin.TabularInline):
